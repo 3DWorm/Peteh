@@ -1,0 +1,40 @@
+name : stuff
+version : 1.0
+author : peteh
+main : com.peteh.stuff.Stuff
+api-version: 1.16
+depend: [ProtocolLib]
+commands:
+  heall:
+    description: Heals player a little idk
+    usage : /<command>
+    aliases : healerthing
+  brad:
+    description: Instantly kills brad
+    usage: /<command>
+    aliases: LNEWGEN
+  farmtime:
+    description: Summons mob on top of stuff
+    usage: /<command>
+  netherblast:
+    description: gives stuff
+    usage: /<command>
+  aspect:
+    description: gives stuff
+    usage: /<command>
+  flamer:
+    description: gives stuff
+    usage: /<command>
+  dash:
+    description: dashes
+    usage: /<command>
+  aspectTeleport:
+    description: tp distance
+    usage: /<command>
+  terrablade:
+    description: shoots particles
+    usage: /<command>
+  blast:
+    description: Fireball
+    usage: /<command>
+
