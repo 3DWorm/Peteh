@@ -37,4 +37,7 @@ commands:
   blast:
     description: Fireball
     usage: /<command>
+  throwaxe:
+    description: throws an axe
+    usage: /<command>
 

@@ -2,10 +2,12 @@ package com.peteh.stuff.commands;
 
 import com.peteh.stuff.Stuff;
 import com.peteh.stuff.cooldowns.CoolDownManager;
+
 import com.peteh.stuff.items.ItemManagers;
 import com.peteh.stuff.projectiles.EntityData;
 import com.peteh.stuff.projectiles.arrow;
 import com.peteh.stuff.projectiles.fireballtest;
+import net.minecraft.server.v1_16_R3.EntityArmorStand;
 import net.minecraft.server.v1_16_R3.PacketPlayOutEntityDestroy;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
@@ -16,14 +18,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftSnowball;
 import org.bukkit.entity.*;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.inventory.EntityEquipment;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
-
-import com.peteh.stuff.projectiles.terrablade;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -141,6 +142,10 @@ public class CustomCommands implements CommandExecutor {
             player.sendMessage(ChatColor.GOLD + "WHOOSH!");
             blast(player);
         }
+        else if (command.getName().equalsIgnoreCase("throwaxe")) {
+            player.sendMessage(ChatColor.GOLD + "WHOOSH!");
+            ThrowAxe(player);
+        }
 
 
         return true;
@@ -152,6 +157,61 @@ public class CustomCommands implements CommandExecutor {
         ball.setVelocity(ball.getVelocity().multiply(10));
         ball.setYield(10);
         player.sendMessage(ChatColor.RED + "whoosh!!!");
+    }
+
+    public void ThrowAxe(Player player) {
+
+        //instantiate armor stand that holds a sword
+        Entity armorstand = player.getWorld().spawnEntity(player.getLocation(), EntityType.ARMOR_STAND);
+        if(armorstand instanceof ArmorStand) {
+            ItemStack item = new ItemStack(Material.IRON_SWORD, 1);
+            //apply to armor stand
+            ((ArmorStand) armorstand).getEquipment().setItemInMainHand(item);
+            armorstand.setGravity(false);
+            ((ArmorStand) armorstand).setVisible(false);
+            ((ArmorStand) armorstand).setCanPickupItems(false);
+            //move forward
+            armorstand.setVelocity(((ArmorStand) armorstand).getLocation().getDirection().multiply(10));
+            new BukkitRunnable()
+            {
+                private int count = 50;
+                @Override
+                public void run()
+                {
+                    // do your stuff here
+
+                    count--;
+                    if (count <= 0) {
+                        armorstand.remove();
+                        cancel();
+                    }
+                }
+
+            }.runTaskAsynchronously(plugin);
+
+
+        }
+        Location location = player.getEyeLocation();
+        BlockIterator blocksToAdd = new BlockIterator(location, 0, 50);
+        Location blockToAdd;
+        Snowball projectile = player.launchProjectile(Snowball.class);
+        projectile.setGravity(false);
+        projectile.setVelocity(projectile.getVelocity().multiply(1));
+        EntityData data = new EntityData(projectile.getLocation(), 50, 80.0);
+        shotprojectiledata.put(projectile, data);
+
+        while (blocksToAdd.hasNext()) {
+            blockToAdd = blocksToAdd.next().getLocation();
+
+            if (blockToAdd.getBlock().getType() != Material.AIR) {
+                break;
+            }
+            //player.getWorld().spawnParticle(Particle.COMPOSTER, blockToAdd,20, 0.1, 0.1, 0.1, 0);
+        }
+        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_IRON_GOLEM_ATTACK, 0.4F, 1.2F);
+
+
+
     }
 
     public void Dash(Player player) {

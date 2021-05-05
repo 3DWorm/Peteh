@@ -53,6 +53,7 @@ public class Stuff extends JavaPlugin {
         getCommand("aspectTeleport").setExecutor(cmdevent);
         getCommand("terrablade").setExecutor(cmdevent);
         getCommand("blast").setExecutor(cmdevent);
+        getCommand("throwaxe").setExecutor(cmdevent);
         ItemManagers.init();
         coolDownManager = new CoolDownManager();
         getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "(Petehs plugin is amazing dont question this message)");
