@@ -170,7 +170,7 @@ public class CustomCommands implements CommandExecutor {
             armorstand.setGravity(false);
             ((ArmorStand) armorstand).setVisible(false);
             ((ArmorStand) armorstand).setCanPickupItems(false);
-            
+
             //move forward
             armorstand.setVelocity(((ArmorStand) armorstand).getLocation().getDirection().multiply(10));
             new BukkitRunnable()
